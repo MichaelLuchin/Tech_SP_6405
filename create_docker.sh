@@ -1,1 +1,1 @@
-docker run --name pg-db -e POSTGRES_DB=social_db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:16s
+docker run --name pg-db -e POSTGRES_DB=social_db -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -p 5432:5432 -d postgres:16
