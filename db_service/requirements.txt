@@ -1,0 +1,11 @@
+# ORM и база данных
+SQLAlchemy>=2.0.0
+
+# Инструмент миграций
+alembic>=1.13.0
+
+# Нативный драйвер для PostgreSQL (psycopg v3)
+psycopg[binary]>=3.1.0
+
+# Чтение переменных окружения из .env файла
+python-dotenv>=1.0.0
