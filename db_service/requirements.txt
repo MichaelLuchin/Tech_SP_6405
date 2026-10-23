@@ -9,3 +9,6 @@ psycopg[binary]>=3.1.0
 
 # Чтение переменных окружения из .env файла
 python-dotenv>=1.0.0
+
+# Хеширование паролей (argon2)
+pwdlib[argon2]>=0.2.0

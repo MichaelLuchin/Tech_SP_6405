@@ -1,0 +1,12 @@
+# Веб-фреймворк и ASGI-сервер
+fastapi>=0.110.0
+uvicorn[standard]>=0.29.0
+
+# Валидация и сериализация данных (DTO)
+pydantic>=2.0.0
+
+# Приём form-data (OAuth2PasswordRequestForm для /login)
+python-multipart>=0.0.9
+
+# JWT
+PyJWT>=2.8.0

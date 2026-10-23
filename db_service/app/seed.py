@@ -1,5 +1,6 @@
 from app.database import SessionLocal
 from app.models import Role, User, UserPassword, Post, Follower, PostRating
+from app.passwords import hash_password
 
 def seed_data():
     with SessionLocal() as db:
@@ -18,9 +19,9 @@ def seed_data():
 
         # Пароли
         db.add_all([
-            UserPassword(user_id=user1.id, password_hash="hash_alice"),
-            UserPassword(user_id=user2.id, password_hash="hash_bob"),
-            UserPassword(user_id=admin.id, password_hash="hash_admin"),
+            UserPassword(user_id=user1.id, password_hash=hash_password("alice123")),
+            UserPassword(user_id=user2.id, password_hash=hash_password("bob123")),
+            UserPassword(user_id=admin.id, password_hash=hash_password("admin123")),
         ])
 
         # 3. Подписка (Alice подписывается на Bob)
