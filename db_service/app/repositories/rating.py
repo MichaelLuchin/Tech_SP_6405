@@ -17,6 +17,10 @@ class RatingRepository:
         stmt = select(PostRating).where(PostRating.post_id == post_id).order_by(PostRating.user_id)
         return self.db.scalars(stmt).all()
 
+    def list_by_user(self, user_id: int) -> Sequence[PostRating]:
+        stmt = select(PostRating).where(PostRating.user_id == user_id)
+        return self.db.scalars(stmt).all()
+
     def save(self, user_id: int, post_id: int, score: int, review_text: str | None) -> PostRating:
         """Создаёт оценку или обновляет существующую (одна оценка на пару user/post)."""
         rating = self.get(user_id, post_id)

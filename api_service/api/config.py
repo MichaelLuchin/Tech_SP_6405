@@ -11,3 +11,6 @@ ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "60")
 # Имена ролей в таблице role
 ADMIN_ROLE = "Admin"
 DEFAULT_ROLE = "User"
+
+# gRPC-сервис рекомендаций
+GRPC_RECOMMENDER_ADDRESS = os.getenv("GRPC_RECOMMENDER_ADDRESS", "localhost:50051")

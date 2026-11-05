@@ -10,3 +10,7 @@ python-multipart>=0.0.9
 
 # JWT
 PyJWT>=2.8.0
+
+# gRPC-клиент (вызов сервиса рекомендаций)
+grpcio>=1.60.0
+protobuf>=4.25.0

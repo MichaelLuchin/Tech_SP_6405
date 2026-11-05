@@ -1,0 +1,4 @@
+# gRPC и Protocol Buffers (grpcio-tools нужен для generate_proto.sh)
+grpcio>=1.60.0
+grpcio-tools>=1.60.0
+protobuf>=4.25.0

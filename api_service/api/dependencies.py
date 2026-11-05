@@ -9,8 +9,9 @@ from app.database import SessionLocal
 from app.models import User
 from app.repositories import PostRepository, RatingRepository, UserRepository
 from api.config import ADMIN_ROLE
+from api.grpc_client import RecommenderClient
 from api.security import decode_access_token
-from api.services import AuthService, PostService, RatingService, UserService
+from api.services import AuthService, PostService, RatingService, RecommendationService, UserService
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="login")
 
@@ -58,10 +59,18 @@ def get_rating_service(ratings: RatingRepoDep, posts: PostRepoDep) -> RatingServ
     return RatingService(ratings, posts)
 
 
+recommender_client = RecommenderClient()
+
+
+def get_recommendation_service() -> RecommendationService:
+    return RecommendationService(recommender_client)
+
+
 AuthServiceDep = Annotated[AuthService, Depends(get_auth_service)]
 UserServiceDep = Annotated[UserService, Depends(get_user_service)]
 PostServiceDep = Annotated[PostService, Depends(get_post_service)]
 RatingServiceDep = Annotated[RatingService, Depends(get_rating_service)]
+RecommendationServiceDep = Annotated[RecommendationService, Depends(get_recommendation_service)]
 
 
 # --- аутентификация и авторизация ---

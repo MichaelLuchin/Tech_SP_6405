@@ -55,3 +55,11 @@ class RatingRead(ORMModel):
     post_id: int
     score: int
     review_text: str | None
+
+
+# --- recommendations ---
+class RecommendedPostRead(BaseModel):
+    post_id: int
+    author_id: int
+    content: str
+    score: float

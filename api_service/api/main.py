@@ -1,8 +1,8 @@
 from fastapi import FastAPI
 
-from api.routers import auth, posts, ratings, users
+from api.routers import auth, posts, ratings, recommendations, users
 
 app = FastAPI(title="Social Network API", version="2.0")
 
-for module in (auth, users, posts, ratings):
+for module in (auth, users, posts, ratings, recommendations):
     app.include_router(module.router)
