@@ -14,3 +14,7 @@ DEFAULT_ROLE = "User"
 
 # gRPC-сервис рекомендаций
 GRPC_RECOMMENDER_ADDRESS = os.getenv("GRPC_RECOMMENDER_ADDRESS", "localhost:50051")
+
+# RabbitMQ (события для сервиса уведомлений)
+RABBITMQ_URL = os.getenv("RABBITMQ_URL", "amqp://guest:guest@localhost:5672/")
+NOTIFICATIONS_QUEUE = "notifications"

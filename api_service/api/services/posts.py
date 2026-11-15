@@ -3,14 +3,17 @@ from typing import Sequence
 from fastapi import HTTPException, status
 
 from app.models import Post, User
-from app.repositories import PostRepository
+from app.repositories import PostRepository, UserRepository
 from api.config import ADMIN_ROLE
+from api.events import EventPublisher
 from api.schemas import PostCreate, PostUpdate
 
 
 class PostService:
-    def __init__(self, posts: PostRepository) -> None:
+    def __init__(self, posts: PostRepository, users: UserRepository, publisher: EventPublisher) -> None:
         self.posts = posts
+        self.users = users
+        self.publisher = publisher
 
     def get(self, post_id: int) -> Post:
         post = self.posts.get(post_id)
@@ -25,7 +28,16 @@ class PostService:
         return self.posts.list_feed(user.id)
 
     def create(self, user: User, data: PostCreate) -> Post:
-        return self.posts.create(user.id, data.content)
+        post = self.posts.create(user.id, data.content)
+        follower_ids = self.users.list_follower_ids(user.id)
+        if follower_ids:
+            self.publisher.publish({
+                "event": "post_created",
+                "post_id": post.id,
+                "author_name": user.username,
+                "recipient_ids": follower_ids,
+            })
+        return post
 
     def update(self, user: User, post_id: int, data: PostUpdate) -> Post:
         post = self.get(post_id)

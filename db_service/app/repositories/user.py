@@ -51,6 +51,11 @@ class UserRepository:
         return user
 
     # --- подписки ---
+    def list_follower_ids(self, user_id: int) -> list[int]:
+        """Id пользователей, подписанных на user_id."""
+        stmt = select(Follower.follower_id).where(Follower.followed_id == user_id)
+        return list(self.db.scalars(stmt).all())
+
     def is_following(self, follower_id: int, followed_id: int) -> bool:
         return self.db.get(Follower, (follower_id, followed_id)) is not None
 

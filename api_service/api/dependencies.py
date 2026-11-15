@@ -9,6 +9,7 @@ from app.database import SessionLocal
 from app.models import User
 from app.repositories import PostRepository, RatingRepository, UserRepository
 from api.config import ADMIN_ROLE
+from api.events import EventPublisher
 from api.grpc_client import RecommenderClient
 from api.security import decode_access_token
 from api.services import AuthService, PostService, RatingService, RecommendationService, UserService
@@ -42,6 +43,10 @@ PostRepoDep = Annotated[PostRepository, Depends(get_post_repository)]
 RatingRepoDep = Annotated[RatingRepository, Depends(get_rating_repository)]
 
 
+# --- публикация событий в RabbitMQ ---
+event_publisher = EventPublisher()
+
+
 # --- сервисы ---
 def get_auth_service(users: UserRepoDep) -> AuthService:
     return AuthService(users)
@@ -51,12 +56,12 @@ def get_user_service(users: UserRepoDep) -> UserService:
     return UserService(users)
 
 
-def get_post_service(posts: PostRepoDep) -> PostService:
-    return PostService(posts)
+def get_post_service(posts: PostRepoDep, users: UserRepoDep) -> PostService:
+    return PostService(posts, users, event_publisher)
 
 
 def get_rating_service(ratings: RatingRepoDep, posts: PostRepoDep) -> RatingService:
-    return RatingService(ratings, posts)
+    return RatingService(ratings, posts, event_publisher)
 
 
 recommender_client = RecommenderClient()
