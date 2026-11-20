@@ -1,17 +1,18 @@
-from fastapi import WebSocket
+import pickle
+
+from websockets.asyncio.server import ServerConnection
 
 
 class ConnectionManager:
     """Хранит активные WebSocket-подключения: user_id -> множество соединений."""
 
     def __init__(self) -> None:
-        self.connections: dict[int, set[WebSocket]] = {}
+        self.connections: dict[int, set[ServerConnection]] = {}
 
-    async def connect(self, user_id: int, websocket: WebSocket) -> None:
-        await websocket.accept()
+    def connect(self, user_id: int, websocket: ServerConnection) -> None:
         self.connections.setdefault(user_id, set()).add(websocket)
 
-    def disconnect(self, user_id: int, websocket: WebSocket) -> None:
+    def disconnect(self, user_id: int, websocket: ServerConnection) -> None:
         sockets = self.connections.get(user_id)
         if sockets is None:
             return
@@ -24,7 +25,7 @@ class ConnectionManager:
         delivered = 0
         for websocket in list(self.connections.get(user_id, ())):
             try:
-                await websocket.send_json(message)
+                await websocket.send(pickle.dumps(message))
                 delivered += 1
             except Exception:
                 self.disconnect(user_id, websocket)

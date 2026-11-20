@@ -1,7 +1,4 @@
-# Веб-фреймворк и ASGI-сервер (в [standard] входит библиотека websockets)
-fastapi>=0.110.0
-uvicorn[standard]>=0.29.0
-
+websockets>=13.0
 # Клиент RabbitMQ (асинхронный)
 aio-pika>=9.4.0
 

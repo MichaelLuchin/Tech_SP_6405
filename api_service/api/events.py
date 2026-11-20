@@ -1,4 +1,4 @@
-import json
+import pickle
 
 import pika
 
@@ -23,7 +23,7 @@ class EventPublisher:
                 channel.basic_publish(
                     exchange="",
                     routing_key=self.queue,
-                    body=json.dumps(event, ensure_ascii=False).encode("utf-8"),
+                    body=pickle.dumps(event),
                     properties=pika.BasicProperties(
                         content_type="application/json",
                         delivery_mode=pika.DeliveryMode.Persistent,

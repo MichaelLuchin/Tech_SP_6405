@@ -4,6 +4,7 @@
 """
 import asyncio
 import json
+import pickle
 import sys
 import urllib.parse
 import urllib.request
@@ -22,9 +23,13 @@ def login(username: str, password: str) -> str:
 
 async def listen(username: str, token: str) -> None:
     async with websockets.connect(f"{WS_URL}?token={token}") as websocket:
+        local_port = websocket.local_address
+        remote_port = websocket.remote_address
+        print(f"Локальный порт: {local_port}, удаленный порт: {remote_port}")
+
         print(f"[Клиент {username}] Подключён к {WS_URL}, ожидание уведомлений...", flush=True)
         async for message in websocket:
-            notification = json.loads(message)
+            notification = pickle.loads(message)
             print(f"[Клиент {username}] Уведомление: {notification['text']}", flush=True)
 
 

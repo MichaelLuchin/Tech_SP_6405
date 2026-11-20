@@ -1,4 +1,4 @@
-import json
+import pickle
 
 import aio_pika
 
@@ -27,7 +27,7 @@ async def start_consumer(manager: ConnectionManager) -> aio_pika.abc.AbstractRob
     async def on_message(message: aio_pika.abc.AbstractIncomingMessage) -> None:
         # подтверждение (ack) отправляется после успешной обработки
         async with message.process():
-            event = json.loads(message.body)
+            event = pickle.loads(message.body)
             print(f"[Notifier] Событие из RabbitMQ: {event}", flush=True)
 
             notification = build_notification(event)
